@@ -6,11 +6,11 @@ class Event
 
   def initialize(start_time, end_time, summary, description)
     @start_time, @end_time, @summary, @description =
-     start_time, end_time, summary, description
+                                      start_time, end_time, summary, description
   end
 
   def to_s
-    "Summary:#{summary}\nDescription:#{description}\nStart at #{start_time.strftime("%Y-%m-%d %H:%M")}\nEnd at #{end_time.strftime("%Y-%m-%d %H:%M")}\n"
+    "#{start_time.strftime("%H:%M")}-#{end_time.strftime("%H:%M")} #{summary}"
   end
 
   def to_json(*arg)
@@ -69,6 +69,12 @@ class EventCollection
 
   def empty?
     @events.empty?
+  end
+
+  def sort
+    @events.sort{|e1, e2|
+      e1.start_time - e2.start_time
+    }
   end
 end
 
