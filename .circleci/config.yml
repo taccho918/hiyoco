@@ -1,27 +1,72 @@
-# Golang CircleCI 2.0 configuration file
 #
-# Check https://circleci.com/docs/2.0/language-go/ for more details
+# CircleCI 2.0 config file for hiyoco:
+#  https://github.com/nomlab/hiyoco
+#  https://circleci.com/docs/2.0/configuration-reference/
+#
+# Caveat:
+#   To allow this workflow to push commits,
+#   you should add a writable deploy key-pair.
+#     https://circleci.com/gh/yoshinari-nomura/hiyoco/edit#ssh
+#       - add private key with hostname: github.com
+#     https://github.com/nomlab/hiyoco/settings/keys
+#       - add corresponding public key
+#
+#   To create deploy key-pair in your terminal, do:
+#     ssh-keygen -P "" -C "ci-writable-deploykey" -f ci-writable-deploykey
+#   you will see two files:
+#     ./ci-writable-deploykey
+#     ./ci-writable-deploykey.pub
+#
+# TODO:
+#  + cache docker image.
+#  + avoid building docs if not changed.
+#
 version: 2
 jobs:
-  build:
+  generate-docs:
     docker:
-      # specify the version
-      - image: circleci/golang:1.10
-      
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    #### TEMPLATE_NOTE: go expects specific checkout path representing url
-    #### expecting it in the form of
-    ####   /go/src/github.com/circleci/go-tool
-    ####   /go/src/bitbucket.org/circleci/go-tool
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+      - image: pseudomuto/protoc-gen-doc:1.1.0
+        entrypoint: /bin/bash
     steps:
-      - checkout
-
-      # specify any bash command here prefixed with `run: `
       - run:
-          name: echo
-          command: echo test
+          name: Install git and ssh
+          command: |
+            set +e
+            apt-get -q -y update
+            apt-get -q -y install git-core ssh-client
+            apt-get autoremove
+            rm -rf /var/lib/apt/lists/*
+      - checkout
+      - run:
+          name: Setup git repository
+          command: |
+            set +e
+            export USERNAME=$(git log --pretty=tformat:%an | head -1)
+            export EMAIL=$(git log --pretty=tformat:%ae | head -1)
+            git config --global user.email "${EMAIL}"
+            git config --global user.name "${USERNAME}"
+      - run:
+          name: Generate docs/ in proto/
+          command: |
+            set +e
+            cd proto
+            bash ./generate_docs.sh --local
+      - run:
+          name: Push to GitHub
+          command: |
+            set +e
+            git add docs
+            git commit --quiet -m "[ci skip] Update API docs
+
+            ${CIRCLE_BUILD_URL}"
+            git push origin ${CIRCLE_BRANCH}
+
+workflows:
+  version: 2
+  all-jobs:
+    jobs:
+      - generate-docs:
+          filters:
+            branches:
+              only:
+                - master
