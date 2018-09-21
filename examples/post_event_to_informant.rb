@@ -1,3 +1,4 @@
+# coding: utf-8
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'event'
@@ -13,13 +14,13 @@ def post(msg)
 end
 
 while json = STDIN.gets
-  events = EventCollection.from_json(json)
+  events = EventCollection.from_json(json).sort
   msg = []
-  msg << "Today's Events"
+  msg << "今日の予定は以下のとおりです．"
+  msg << "-----"
   events.each do |event|
-    msg << "--------------------------"
     msg << event.to_s
   end
-  msg << "--------------------------"
+  msg << "-----"
   post(msg.join("\n"))
 end

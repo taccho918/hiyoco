@@ -2,15 +2,16 @@ require "json"
 require "date"
 
 class Event
+  include Comparable
   attr_reader :start_time, :end_time, :summary, :description
 
   def initialize(start_time, end_time, summary, description)
     @start_time, @end_time, @summary, @description =
-     start_time, end_time, summary, description
+                                      start_time, end_time, summary, description
   end
 
   def to_s
-    "Summary:#{summary}\nDescription:#{description}\nStart at #{start_time.strftime("%Y-%m-%d %H:%M")}\nEnd at #{end_time.strftime("%Y-%m-%d %H:%M")}\n"
+    "#{start_time.strftime("%H:%M")}-#{end_time.strftime("%H:%M")} #{summary}"
   end
 
   def to_json(*arg)
@@ -35,6 +36,10 @@ class Event
 
   def self.from_json(json)
     Event.from_hash(JSON.parse(json))
+  end
+
+  def <=>(other)
+    @start_time - other.start_time
   end
 end
 
