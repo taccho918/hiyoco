@@ -2,6 +2,7 @@ require "json"
 require "date"
 
 class Event
+  include Comparable
   attr_reader :start_time, :end_time, :summary, :description
 
   def initialize(start_time, end_time, summary, description)
@@ -36,6 +37,10 @@ class Event
   def self.from_json(json)
     Event.from_hash(JSON.parse(json))
   end
+
+  def <=>(other)
+    @start_time - other.start_time
+  end
 end
 
 class EventCollection
@@ -69,12 +74,6 @@ class EventCollection
 
   def empty?
     @events.empty?
-  end
-
-  def sort
-    @events.sort{|e1, e2|
-      e1.start_time - e2.start_time
-    }
   end
 end
 
