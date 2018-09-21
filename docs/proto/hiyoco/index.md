@@ -24,6 +24,13 @@
     - [Sounder](#hiyoco.calendar_watcher.Sounder)
   
 
+- [hiyoco/filter/service.proto](#hiyoco/filter/service.proto)
+  
+  
+  
+    - [Filter](#hiyoco.filter.Filter)
+  
+
 - [hiyoco/informant/service.proto](#hiyoco/informant/service.proto)
   
   
@@ -195,6 +202,33 @@ Represents plain text
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
+| SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
+
+ 
+
+
+
+<a name="hiyoco/filter/service.proto"/>
+<p align="right"><a href="#top">Top</a></p>
+
+## hiyoco/filter/service.proto
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="hiyoco.filter.Filter"/>
+
+### Filter
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| SayText | [.hiyoco.calendar.Text](#hiyoco.calendar.Text) | [.hiyoco.calendar.Result](#hiyoco.calendar.Text) |  |
 | SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
 
  
