@@ -4,11 +4,12 @@ import TextBox from './TextBox';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import {Button, Grid, Row, Col} from 'react-bootstrap';
 import List from './List';
+import { Filters } from './Store';
 
 class PageOfFilter extends Component{
-	constructor() {
-		super();
-		var condition_string_methods = [
+    constructor() {
+        super();
+        var condition_string_methods = [
             "",
             "含む",
             "一致する"
@@ -18,38 +19,38 @@ class PageOfFilter extends Component{
             "以前である",
             "以降である"
         ];
-		var modifier_string_methods = [
+        var modifier_string_methods = [
              "",
             "隠す",
             "置換する"
         ];
-		var modifier_date_methods = [
+        var modifier_date_methods = [
             "",
             "隠す",
         ];
 
-		this.state = {
+        this.state = {
             name: "",
             f_names: [],
-			condition_string_methods: condition_string_methods,
+            condition_string_methods: condition_string_methods,
             condition_date_methods: condition_date_methods,
-			modifier_string_methods:modifier_string_methods,
-			modifier_date_methods: modifier_date_methods,
-			condition_arg: "",
-			modifier_arg: "",
-		};
-		this.handleCM = this.handleCM.bind(this);
-		this.handleCA = this.handleCA.bind(this);
-		this.handleMM = this.handleMM.bind(this);
-		this.handleMA = this.handleMA.bind(this);
+            modifier_string_methods:modifier_string_methods,
+            modifier_date_methods: modifier_date_methods,
+            condition_arg: "",
+            modifier_arg: "",
+        };
+        this.handleCM = this.handleCM.bind(this);
+        this.handleCA = this.handleCA.bind(this);
+        this.handleMM = this.handleMM.bind(this);
+        this.handleMA = this.handleMA.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-	}
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
-	handleCM(event){this.setState({condition_method: event.target.value});}
-	handleCA(event){this.setState({condition_arg: event.target.value});}
-	handleMM(event){this.setState({modifier_method: event.target.value});}
-	handleMA(event){this.setState({modifier_arg: event.target.value});}
+    handleCM(event){this.setState({condition_method: event.target.value});}
+    handleCA(event){this.setState({condition_arg: event.target.value});}
+    handleMM(event){this.setState({modifier_method: event.target.value});}
+    handleMA(event){this.setState({modifier_arg: event.target.value});}
 
     handleNameChange(event){
         this.setState({
@@ -58,26 +59,21 @@ class PageOfFilter extends Component{
     }
 
     handleSubmit(event) {
-        // alert('フィルタを作成しました\n' +
-              // 'フィルタ名: ' + this.state.name + '\n' +
-              // '適用条件:\n'  +
-              // '\t項目: ' + this.state.condition_column + '\n' +
-			  // '\t引数: ' + this.state.condition_arg  + '\n' +
-			  // '\t処理: ' + this.state.condition_method + '\n' +
-			  // '編集方法:\n' +
-              // '\t項目: '+ this.state.modifier_column + '\n' +
-			  // '\t引数: ' + this.state.modifier_arg + '\n' +
-			  // '\t処理: ' + this.state.modifier_method
-		// );
-        alert('フィルタを作成しました');
-        this.state.f_names.push(this.state.name);
+        const nextId = Filters[Filters.length-1].id + 1;
+        const condition = this.state.condition_method + ":" + this.state.condition_arg
+        const modifier = this.state.modifier_method + ":" + this.state.modifier_arg
+        Filters.push({id: nextId, name: this.state.name, condition: condition, modifier:modifier})
+
         this.setState(this.state);
         event.preventDefault();
+        this.setState(this.state);
+        event.preventDefault();
+        this.props.history.push("/");
     }
 
-	render(){
-		return(
-			<div>
+    render(){
+        return(
+            <div>
               <Grid>
                 <h1>Filter</h1>
                 <br/>
@@ -133,7 +129,7 @@ class PageOfFilter extends Component{
                 <p/>
 
                 <br/>
-			    <h4>編集方法</h4>
+                <h4>編集方法</h4>
                 <Row>
                   <Col xs={3} md={2}>
                     項目: 予定名
@@ -178,7 +174,7 @@ class PageOfFilter extends Component{
                     <PullDown data = {this.state.modifier_string_methods} handleChange = {this.handleMM}/>
                   </Col>
                 </Row>
-			    <p/>
+                <p/>
 
                 <br/>
                 <Button bsStyle="success" onClick = {this.handleSubmit}>フィルタを作成</Button>
@@ -191,16 +187,14 @@ class PageOfFilter extends Component{
 
                 <br/>
                 <h4>
-                  <Link to={"/action/" + this.state.f_names}>
-                    <Button>
-                      アクションを作成する
-                    </Button>
+                  <Link to={"/"}>
+                    <Button>戻る</Button>
                   </Link>&nbsp;
                 </h4>
               </Grid>
-			</div>
-		);
-	}
+            </div>
+        );
+    }
 }
 
 export default PageOfFilter;
