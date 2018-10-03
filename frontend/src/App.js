@@ -8,7 +8,8 @@ import Dashboard from './Dashboard';
 import PageOfFilter from './PageOfFilter';
 import PageOfAction from './PageOfAction';
 import MyNavbar from './MyNavbar';
-
+import Action from './Action';
+import Filter from './Filter';
 //css
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -23,11 +24,11 @@ class App extends Component {
           <MyNavbar/>
           <Route exact path="/" component={Dashboard}/>
         <Switch>
-          <Route path="/action/:id" component={PageOfAction}/>
+          <Route path="/action/:id" component={Action}/>
           <Route path="/action" component={PageOfAction}/>
         </Switch>
         <Switch>
-          <Route path="/filter/:id" component={PageOfFilter}/>
+          <Route path="/filter/:id" component={Filter}/>
           <Route path="/filter" component={PageOfFilter}/>
         </Switch>
         </div>

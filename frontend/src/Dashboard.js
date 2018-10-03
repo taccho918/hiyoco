@@ -46,7 +46,7 @@ const Dashboard = (props) => {
               { Actions.map(action => {
                   return (
                     <tr>
-                      <td>{action.name}</td>
+                      <Link to={"/action/"+ action.id}><td>{action.name}</td></Link>
                     </tr>
                   );
               })}
@@ -65,7 +65,7 @@ const Dashboard = (props) => {
             { Filters.map(filter => {
                 return (
                   <tr>
-                    <td>{filter.name}</td>
+                    <Link to={"/filter/"+ filter.id}><td>{filter.name}</td></Link>
                   </tr>
                 );
             })}
