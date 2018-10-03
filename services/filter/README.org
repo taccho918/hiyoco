@@ -24,7 +24,13 @@
 
 ** Usage
 
-   TODO: Write usage instructions here
+   1. Launch filter server
+     #+BEGIN_SRC
+     $ bundle exec ruby lib/filter/filter_server.rb host port
+     #+END_SRC
+      =host= means filter server host. Default value is =localhost= ．
+      =port= means filter server port. Default value is =50050= ．
+      If filter server recieve event, filter server send event to informant( move =localhost:50051= )．
 
 ** Development
 
@@ -50,6 +56,16 @@
    You don’t need to run =bundle exec rake compile= before running
    =bundle exec rake install= or =bundle exec rake release= because
    both of commands are dependencies of =bundle exec rake compile=.
+
+** Tests
+
+1. Exec test script
+
+     #+BEGIN_SRC
+     $ bundle exec ruby lib/test/filter_client.rb
+     #+END_SRC
+
+   This script send event to filter server(move =localhost:50050= )．
 
 ** Contributing
 
