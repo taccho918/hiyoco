@@ -52,7 +52,8 @@ Thread.new do
   end
 end
 
-while json = gets.chomp
+while json = gets
+  json.chomp!
   events = EventCollection.from_json(json)
   JSON.parse(events.to_json).each do |ev|
     q.enqueue(ev)

@@ -18,6 +18,6 @@ while json = gets
     seen[ev.to_s] = true
     unseen 
   end
-  p events_not_out_yet.to_json
+  puts events_not_out_yet.to_json
   STDOUT.flush
 end
