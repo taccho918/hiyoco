@@ -1,0 +1,28 @@
+version: '3'
+services:
+  informant:
+    build: ../services/informant/
+    container_name: informant
+    image: informant
+    ports:
+      - "50052:50052"
+
+  calendar_watcher:
+    build: ../services/calendar_watcher/
+    container_name: calendar_watcher
+    image: calendar_watcher
+    command: bash -c "while true; do bundle exec exe/calendar_watcher today_events --output=grpc:hiyoco-example:50051; sleep 60; done"
+    volumes:
+      - ./calendar_watcher:/root/.config/calendar_watcher
+    depends_on:
+      - hiyoco-example
+
+  hiyoco-example:
+    build: .
+    container_name: hiyoco-example
+    image: hiyoco-example
+    command: bash -c "bundle exec ruby server.rb | tee >(./filter_before_15minutes.rb | ./filter_not_out_yet.rb | bundle exec ruby post_event_to_sounder.rb 172.21.50.138 50050) >(./filter_not_out_yet.rb | ./once_day.rb | bundle exec ruby post_event_to_informant.rb informant 50052)"
+    ports:
+      - "50051:50051"
+    depends_on:
+      - informant
