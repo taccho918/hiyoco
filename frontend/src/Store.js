@@ -41,10 +41,10 @@ const Actions = [
 ]
 
 const Groups = [
-  {id:1, action: "summary_delete", filters: ['calendar2','slack']},
-  {id:2, action: "created_delete", filters: ['calendar1']},
-  {id:3, action: "location_delete", filters: ['calendar2','mail']},
-  {id:4, action: "after_17PM__delete", filters: ['mail']},
+  {id:1, action: 'calendar1', filters: ["created_delete","location_delete"]},
+  {id:2, action: 'calendar2', filters: ["summary_delete"]},
+  {id:3, action: 'slack', filters: ["created_delete","after_17PM__delete"]},
+  {id:4, action: 'mail', filters: ["after_17PM__delete"]},
 ]
 
 export {Actions, Filters, Groups}
