@@ -4,9 +4,9 @@ require "hiyoco/calendar_watcher/service_services_pb"
 
 class FilterServer < Hiyoco::CalendarWatcher::Filter::Service
   def say_event(e, _unused_call)
-    start_time = Time.at(e.start.dateTime.dateTime.seconds)
-    end_time = Time.at(e.end.dateTime.dateTime.seconds)
-    puts "[\{\"start\":\"#{start_time.strftime("%Y-%m-%dT%H:%M+09:00")}\",\"end\":\"#{end_time.strftime("%Y-%m-%dT%H:%M+09:00")}\",\"summary\":\"#{e.summary}\",\"description\":\"#{e.description}\"\}]"
+    start_time = Time.at(e.start.dateTime.dateTime.seconds).getlocal("+09:00")
+    end_time = Time.at(e.end.dateTime.dateTime.seconds).getlocal("+09:00")
+    puts "[\{\"start\":\"#{start_time.strftime("%Y-%m-%dT%H:%M%:z")}\",\"end\":\"#{end_time.strftime("%Y-%m-%dT%H:%M%:z")}\",\"summary\":\"#{e.summary}\",\"description\":\"#{e.description}\"\}]"
     STDOUT.flush
     Hiyoco::Calendar::Result.new(result: true)
   end
