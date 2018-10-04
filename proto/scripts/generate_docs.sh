@@ -47,7 +47,7 @@ function protoc_gen_doc_docker_debug () {
 ## Run protoc-gen-doc using Docker image
 
 function protoc_gen_doc_docker () {
-  SRC_FILES=$(cd ..; git ls-files "$SRC_DIR/*.proto" | sed 's!^!/protos/!')
+  SRC_FILES=$(cd $SRC_DIR; git ls-files "$SRC_DIR/*.proto" | sed 's!^!/protos/!')
   
   ABS_DST_DIR=$(get_absolute_path "$DST_DIR")
   ABS_SRC_DIR=$(get_absolute_path "$SRC_DIR")
@@ -67,10 +67,10 @@ function protoc_gen_doc_docker () {
 ## Run protoc-gen-doc using Local installation
 
 function protoc_gen_doc_local () {
-  SRC_FILES=$(cd ..; git ls-files "$SRC_DIR/*.proto")
+  SRC_FILES=$(cd $SRC_DIR; git ls-files "$SRC_DIR/*.proto")
   
   ABS_DST_DIR=$(get_absolute_path "$DST_DIR")
-  (cd ..; protoc --doc_out="$ABS_DST_DIR" \
+  (cd $SRC_DIR; protoc --doc_out="$ABS_DST_DIR" \
          --doc_opt=markdown,index.md \
          $SRC_FILES)
 }
