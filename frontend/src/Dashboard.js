@@ -8,11 +8,8 @@ import { Button, Table, Grid, Col, Row } from 'react-bootstrap';
 const Dashboard = (props) => {
     return (
       <div>
-        <Link to="/action"><Button>create action</Button></Link>
-        <Link to="/filter"><Button>create filter</Button></Link>
-        <Link to="/filter"><Button>create pair</Button></Link>
-
         <Grid>
+          <h1>Dashboard</h1>
           <Row>
             <Col xs={10} md={6}>
               <Table striped bordered condensed hover>
@@ -32,7 +29,8 @@ const Dashboard = (props) => {
                     );
                 })}
                 </tbody>
-              </Table>
+                </Table>
+                <Link to="/filter"><Button>create pair</Button></Link>
             </Col>
 
             <Col xs={4} md={2}>
@@ -52,6 +50,7 @@ const Dashboard = (props) => {
               })}
             </tbody>
             </Table>
+            <Link to="/action"><Button>create action</Button></Link>
             </Col>
 
             <Col xs={4} md={2}>
@@ -70,8 +69,9 @@ const Dashboard = (props) => {
                 );
             })}
               </tbody>
-            </Table>
-            </Col>
+              </Table>
+              <Link to="/filter"><Button>create filter</Button></Link>
+              </Col>
           </Row>
         </Grid>
 
