@@ -30,7 +30,7 @@ const Dashboard = (props) => {
                 })}
                 </tbody>
                 </Table>
-                <Link to="/filter"><Button>create pair</Button></Link>
+                <Link to="/group"><Button>create a group of Action and Filter</Button></Link>
             </Col>
 
             <Col xs={4} md={2}>
