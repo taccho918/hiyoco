@@ -4,6 +4,7 @@ services:
     build: ../services/informant/
     container_name: informant
     image: informant
+    # informant のポート番号は services/informant/Dockerfile で設定されている
     ports:
       - "50052:50052"
 
@@ -11,6 +12,7 @@ services:
     build: ../services/calendar_watcher/
     container_name: calendar_watcher
     image: calendar_watcher
+    # calendar_watcher today_events --output=grpc:hiyoco-example:<server.rb が起動しているポート>
     command: bash -c "while true; do bundle exec exe/calendar_watcher today_events --output=grpc:hiyoco-example:50051; sleep 60; done"
     volumes:
       - ./calendar_watcher:/root/.config/calendar_watcher
@@ -21,7 +23,11 @@ services:
     build: .
     container_name: hiyoco-example
     image: hiyoco-example
-    command: bash -c "bundle exec ruby server.rb | tee >(./filter_before_15minutes.rb | ./filter_not_out_yet.rb | bundle exec ruby post_event_to_sounder.rb 172.21.50.138 50050) >(./filter_not_out_yet.rb | ./once_day.rb | bundle exec ruby post_event_to_informant.rb informant 50052)"
+    # commnad 内で指定している引数は以下のとおり
+    # post_event_to_sounder.rb <VoiceKit の ホスト名(IP アドレス)> <VoiceKit で起動している sounder のポート番号>
+    # post_event_to_informant.rb <ホスト名(コンテナ名)> <informant のポート番号>
+    command: bash -c "bundle exec ruby server.rb | tee >(./filter_before_15minutes.rb | ./filter_not_out_yet.rb | bundle exec ruby post_event_to_sounder.rb 172.21.50.128 50050) >(./filter_not_out_yet.rb | ./once_day.rb | bundle exec ruby post_event_to_informant.rb informant 50052)"
+    # server.rb は 50051 番ポートで起動する
     ports:
       - "50051:50051"
     depends_on:
