@@ -18,3 +18,7 @@ service Informant {
 service Filter {
   rpc SayEvent (hiyoco.calendar.Event) returns (hiyoco.calendar.Result) {}
 }
+
+service Test {
+  rpc SayEvents (hiyoco.calendar.EventCollection) returns (hiyoco.calendar.Result) {}
+}
