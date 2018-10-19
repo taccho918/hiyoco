@@ -49,7 +49,7 @@ jobs:
           name: Generate docs/ in proto/
           command: |
             set +e
-            cd proto
+            cd proto/scripts
             bash ./generate_docs.sh --local
       - run:
           name: Push to GitHub
