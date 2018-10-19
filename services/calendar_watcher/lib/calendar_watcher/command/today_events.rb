@@ -54,7 +54,7 @@ class CalendarWatcherCLI < Clian::Cli
   private
 
   def date_or_datetime(date)
-    date.date_time || date.date
+    date.date_time || DateTime.parse(date.date)
   end
 
   def create_gprc_date(date)
