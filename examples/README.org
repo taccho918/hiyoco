@@ -1,0 +1,54 @@
+* examplesディレクトリについて
+  
+本ディレクトリには，Googleカレンダーから予定を取得し，15分後の予定を AIY Voice Kit に，今日の予定を朝10時に Slack に送信するスクリプトをまとめている．
+
+* ディレクトリ内のスクリプトの概要
+
++ compile_proto.sh
+  + .protoファイルをコンパイルする．
++ exec_today_events.sh
+  + Googleカレンダーから今日の予定を取得する．
++ filter_before_15minutes.rb
+  + 入力された予定の内，予定の開始時刻が15分後以内の予定を収集し，まとめて出力する．
++ filter_not_out_yet.rb
+  + 入力された予定が初めての予定かを判断し，初めて取得した予定のみをJSON形式で出力する．
++ once_day.rb
+  + 入力された予定を蓄積し，朝10時にまとめてJSON形式で出力する．
++ post_event_to_informant.rb
+  + 入力された予定を gRPC により Slack に送信する．
++ post_event_to_sounder.rb
+  + 入力された予定を gRPC により AIY Voice Kit に送信する．
++ run.sh
+  + Googleカレンダーから今日の予定を取得し，送信先ごとに適した処理を行う．
+      + Slack
+        1. 取得したことがない予定かを判断
+        2. 初めて取得した予定のみを蓄積し，朝10時に Slack にまとめて送信
+      + AIY Voice Kit
+        1. 取得した予定の内，予定の開始時刻が15分後以内の予定を収集
+        2. 収集した予定の内，初めて取得した予定のみを AIY Voice Kit に送信
+
+* Usage
+run.sh を実行することで，Googleカレンダーから予定を取得し，15分後の予定を AIY Voice Kit に，今日の予定を朝10時に Slack に送信するスクリプトを実行できる．
+以下の手順に従い run.sh を実行する．
+1. bundle インストール
+
+  #+BEGIN_SRC sh
+  $ bundle install --path=vendor/bundle
+  #+END_SRC
+2. .protoファイルのコンパイル
+
+  以下のコマンドを実行し，.protoファイルをコンパイルする．
+  #+BEGIN_SRC sh
+  $ chmod +x compile_proto.sh
+  $ ./compile_proto.sh
+  #+END_SRC
+3. スクリプトの実行
+
+  以下のコマンドを実行する．
+  #+BEGIN_SRC sh
+  $ chmod +x run.sh
+  $ ./run.sh
+  #+END_SRC
+
+
+  
