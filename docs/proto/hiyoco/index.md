@@ -8,6 +8,7 @@
     - [DateOrTime](#hiyoco.calendar.DateOrTime)
     - [DateTime](#hiyoco.calendar.DateTime)
     - [Event](#hiyoco.calendar.Event)
+    - [EventCollection](#hiyoco.calendar.EventCollection)
     - [Result](#hiyoco.calendar.Result)
     - [Text](#hiyoco.calendar.Text)
   
@@ -20,8 +21,6 @@
   
   
     - [Filter](#hiyoco.calendar_watcher.Filter)
-    - [Informant](#hiyoco.calendar_watcher.Informant)
-    - [Sounder](#hiyoco.calendar_watcher.Sounder)
   
 
 - [hiyoco/filter/service.proto](#hiyoco/filter/service.proto)
@@ -123,6 +122,21 @@ Represents event detail
 
 
 
+<a name="hiyoco.calendar.EventCollection"/>
+
+### EventCollection
+Represents event collection
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| events | [Event](#hiyoco.calendar.Event) | repeated | Array of event |
+
+
+
+
+
+
 <a name="hiyoco.calendar.Result"/>
 
 ### Result
@@ -183,26 +197,7 @@ Represents plain text
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
-
-
-<a name="hiyoco.calendar_watcher.Informant"/>
-
-### Informant
-
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
-
-
-<a name="hiyoco.calendar_watcher.Sounder"/>
-
-### Sounder
-
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| SayEvent | [.hiyoco.calendar.Event](#hiyoco.calendar.Event) | [.hiyoco.calendar.Result](#hiyoco.calendar.Event) |  |
+| SayEvents | [.hiyoco.calendar.EventCollection](#hiyoco.calendar.EventCollection) | [.hiyoco.calendar.Result](#hiyoco.calendar.EventCollection) |  |
 
  
 
