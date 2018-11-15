@@ -48,6 +48,13 @@ message Event {
 }
 
 /**
+  Represents event collection
+*/
+message EventCollection {
+  repeated Event events = 1; /// Array of event
+}
+
+/**
   Represents return value of result
 */
 message Result {

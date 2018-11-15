@@ -7,14 +7,7 @@ option java_package = "org.nomlab.hiyoco";
 option java_outer_classname = "CalendarWathcerServiceProtos";
 option csharp_namespace = "Hiyoco.CalendarWatcher.Service";
 
-service Sounder {
-  rpc SayEvent (hiyoco.calendar.Event) returns (hiyoco.calendar.Result) {}
-}
-
-service Informant {
-  rpc SayEvent (hiyoco.calendar.Event) returns (hiyoco.calendar.Result) {}
-}
-
 service Filter {
   rpc SayEvent (hiyoco.calendar.Event) returns (hiyoco.calendar.Result) {}
+  rpc SayEvents (hiyoco.calendar.EventCollection) returns (hiyoco.calendar.Result) {}
 }

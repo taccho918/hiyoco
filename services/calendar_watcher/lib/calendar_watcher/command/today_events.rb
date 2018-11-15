@@ -28,15 +28,19 @@ class CalendarWatcherCLI < Clian::Cli
 
     if format == "grpc"
       stub = Hiyoco::CalendarWatcher::Filter::Stub.new("#{host}:#{port}", :this_channel_is_insecure)
+      grpc_events = Hiyoco::Calendar::EventCollection.new(events: [])
+
       today_events.each do |ev|
         s = create_gprc_date(ev.start_time)
         e = create_gprc_date(ev.end_time)
         desc = ev.description || ""
 
         grpc_ev = Hiyoco::Calendar::Event.new(start: s, end: e, summary: ev.summary, description: desc)
-        puts stub.say_event(grpc_ev).result
+        grpc_events.events.push(grpc_ev)
       end
 
+      puts stub.say_events(grpc_events).result
+    
     elsif format == "json"
       puts today_events.to_json
 
@@ -54,7 +58,7 @@ class CalendarWatcherCLI < Clian::Cli
   private
 
   def date_or_datetime(date)
-    date.date_time || date.date
+    date.date_time || DateTime.parse(date.date)
   end
 
   def create_gprc_date(date)
