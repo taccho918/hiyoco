@@ -27,7 +27,7 @@ class CalendarWatcherCLI < Clian::Cli
     end
 
     if format == "grpc"
-      stub = Hiyoco::CalendarWatcher::Test::Stub.new("#{host}:#{port}", :this_channel_is_insecure)
+      stub = Hiyoco::CalendarWatcher::Filter::Stub.new("#{host}:#{port}", :this_channel_is_insecure)
       grpc_events = Hiyoco::Calendar::EventCollection.new(events: [])
 
       today_events.each do |ev|
